@@ -1,9 +1,11 @@
 const int sensorPin = A0;
-const int greenLedPin = 10;
-const int blueLedPin = 9;
-const int redLedPin = 11;
+const int greenLedPin2 = 10;
+const int greenLedPin1 = 11;
+const int redLedPin = 9;
 int outputValue = 0;
 int sensorValue = 0;
+int firstTemp = 100;
+int secondTemp = 200;
 
 void setup() {
   // put your setup code here, to run once:
@@ -17,10 +19,35 @@ void loop() {
   //Serial.print(" ");
   outputValue = map(sensorValue, 0, 1023, 0, 255);
 
+  if(outputValue > 0 && outputValue <= 100){
+    
+    analogWrite(greenLedPin1, outputValue);
+    digitalWrite(greenLedPin2, LOW);
+    digitalWrite(redLedPin, LOW);
+    
+  }
+  else if(outputValue > 100 && outputValue <= 200){
+    analogWrite(greenLedPin1, firstTemp);
+    analogWrite(greenLedPin2, outputValue);
+    digitalWrite(redLedPin, LOW);
+  }
+  else if(outputValue > 200 && outputValue <= 254){
+    analogWrite(greenLedPin1, firstTemp);
+    analogWrite(greenLedPin2, secondTemp);
+    analogWrite(redLedPin, outputValue);
+  }
+  else{
+
+    
+      analogWrite(greenLedPin1, outputValue);
+      analogWrite(greenLedPin2, outputValue);
+      analogWrite(redLedPin, outputValue);
+      
+    
+    
+    
+  }
   
-  analogWrite(greenLedPin, outputValue);
-  analogWrite(blueLedPin, outputValue);
-  analogWrite(redLedPin, outputValue);
   
   
   //analogWrite(LEDPin, outputValue);
