@@ -1,56 +1,54 @@
-const int sensorPin = A0;
+const int potentiometer_pin = A0;
 const int greenLedPin2 = 10;
 const int greenLedPin1 = 11;
 const int redLedPin = 9;
-int outputValue = 0;
-int sensorValue = 0;
-int firstTemp = 50;
-int secondTemp = 150;
+int output_value = 0;
+int potentiometer_value = 0;
+const int firstTemp = 50;
+const int secondTemp = 150;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  
   pinMode(greenLedPin1, OUTPUT);
   pinMode(greenLedPin2, OUTPUT);
   pinMode(redLedPin, OUTPUT);
   pinMode(greenLedPin1, LOW);
   pinMode(greenLedPin2, LOW);
   pinMode(redLedPin, LOW);
+
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  sensorValue = analogRead(sensorPin);
-  Serial.println(sensorValue);
-  //Serial.print(" ");
-  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  
+  potentiometer_value = analogRead(potentiometer_pin);
+  Serial.println(potentiometer_value);
+  output_value = map(potentiometer_value, 0, 1023, 0, 255);
 
-  if(outputValue > 0 && outputValue <= 50){
+  if(output_value > 0 && output_value <= 50){
     
-    analogWrite(greenLedPin1, outputValue);
+    analogWrite(greenLedPin1, output_value);
     digitalWrite(greenLedPin2, LOW);
     digitalWrite(redLedPin, LOW);
     
   }
-  else if(outputValue > 50 && outputValue <= 150){
+  else if(output_value > 50 && output_value <= 150){
     analogWrite(greenLedPin1, firstTemp);
-    analogWrite(greenLedPin2, outputValue);
+    analogWrite(greenLedPin2, output_value);
     digitalWrite(redLedPin, LOW);
   }
-  else if(outputValue > 150 && outputValue <= 254){
+  else if(output_value > 150 && output_value <= 254){
     analogWrite(greenLedPin1, firstTemp);
     analogWrite(greenLedPin2, secondTemp);
-    analogWrite(redLedPin, outputValue);
+    analogWrite(redLedPin, output_value);
   }
   else{
-    analogWrite(greenLedPin1, outputValue);
-    analogWrite(greenLedPin2, outputValue);
-    analogWrite(redLedPin, outputValue);
+    analogWrite(greenLedPin1, output_value);
+    analogWrite(greenLedPin2, output_value);
+    analogWrite(redLedPin, output_value);
   }
   
-  
-  
-  //analogWrite(LEDPin, outputValue);
 
   delay(1);
 }
